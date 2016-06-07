@@ -53,18 +53,17 @@ plugins=(git brew npm)
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin"
+export PATH="/Users/rickerbh/.rbenv/shims:~/Library/Android/sdk/tools:~/Library/Android/sdk/platform-tools:~/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 alias ll="ls -l"
+alias emacs=ec
 
 export PATH="/Users/rickerbh/.local/bin":$PATH
 export ANDROID_HOME=/Users/rickerbh/Library/Android/sdk
 export NVM_DIR="/Users/rickerbh/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-source $ZSH/oh-my-zsh.sh
-source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -89,3 +88,8 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+source $ZSH/oh-my-zsh.sh
+. `brew --prefix`/etc/profile.d/z.sh
+source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
