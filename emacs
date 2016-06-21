@@ -3,15 +3,9 @@
 	     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
 
+(exec-path-from-shell-initialize)
+
 (load-theme 'subatomic t)
-
-(let ((my-stack-path (expand-file-name "~/.local/bin")))
-  (setenv "PATH" (concat my-stack-path path-separator (getenv "PATH")))
-  (add-to-list 'exec-path my-stack-path))
-
-(let ((my-bin-path "/usr/local/bin"))
-  (setenv "PATH" (concat my-bin-path path-separator (getenv "PATH")))
-  (add-to-list 'exec-path my-bin-path))
 
 (eval-after-load 'haskell-mode
   '(progn
@@ -45,3 +39,5 @@
 
 (setq vc-handled-backends nil)
 (global-set-key (kbd "C-x g") 'magit-status)
+
+(add-hook 'after-init-hook #'global-flycheck-mode)
