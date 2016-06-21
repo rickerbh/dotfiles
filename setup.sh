@@ -27,3 +27,5 @@ setup_file_link "${CODE_HOME}/zshrc" "${HOME}/.zshrc"
 setup_file_link "${CODE_HOME}/scripts/ec" "/usr/local/bin/ec"
 setup_file_link "${CODE_HOME}/scripts/et" "/usr/local/bin/et"
 setup_file_link "${CODE_HOME}/emacs" "${HOME}/.emacs"
+
+echo "Need to copy ./scripts/gnu.emacs.daemon.plist to /Library/LaunchAgents/gnu.emacs.daemon.plist with 644 and root"
