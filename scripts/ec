@@ -26,11 +26,11 @@
 # Number of current visible frames,
 # Emacs daemon always has a visible frame called F1
 visible_frames() {
-  emacsclient -a "" -e '(length (visible-frame-list))'
+  /Applications/Emacs.app/Contents/MacOS/bin/emacsclient -a "" -e '(length (visible-frame-list))'
 }
 
 change_focus() {
-  emacsclient -n -e "(select-frame-set-input-focus (selected-frame))" > /dev/null
+  /Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n -e "(select-frame-set-input-focus (selected-frame))" > /dev/null
 }
 
 # try switching to the frame incase it is just minimized
@@ -39,9 +39,9 @@ test "$(visible_frames)" -eq "1" && change_focus
 
 if [ "$(visible_frames)" -lt  "2" ]; then # need to create a frame
   # -c $@ with no args just opens the scratch buffer
-  emacsclient -n -c "$@" && change_focus
+  /Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n -c "$@" && change_focus
 else # there is already a visible frame besides the daemon, so
   change_focus
   # -n $@ errors if there are no args
-  test  "$#" -ne "0" && emacsclient -n "$@"
+  test  "$#" -ne "0" && /Applications/Emacs.app/Contents/MacOS/bin/emacsclient -n "$@"
 fi
