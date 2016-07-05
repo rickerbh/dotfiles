@@ -28,14 +28,23 @@
 (add-hook 'haskell-mode-hook #'hindent-mode)
 
 (custom-set-variables
- '(haskell-process-type 'stack-ghci)
- '(hindent-style "chris-done")
- '(haskell-tags-on-save t)
- '(haskell-process-suggest-remove-import-lines t)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t))
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-process-type (quote stack-ghci))
+ '(haskell-tags-on-save t)
+ '(hindent-style "chris-done")
 
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 (setq vc-handled-backends nil)
 (global-set-key (kbd "C-x g") 'magit-status)
