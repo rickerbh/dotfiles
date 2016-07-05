@@ -59,7 +59,7 @@ export PATH="/Users/rickerbh/.rbenv/shims:~/Library/Android/sdk/tools:~/Library/
 alias ll="ls -l"
 alias emacs=ec
 
-export PATH="/Users/rickerbh/.local/bin":$PATH
+export PATH="/Users/rickerbh/.local/bin":"/Users/rickerbh/.npm-packages/bin":$PATH
 export ANDROID_HOME=/Users/rickerbh/Library/Android/sdk
 export NVM_DIR="/Users/rickerbh/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
