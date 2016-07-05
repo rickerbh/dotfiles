@@ -51,3 +51,5 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(setq-default indent-tabs-mode nil)
