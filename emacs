@@ -38,6 +38,7 @@
  '(haskell-process-type (quote stack-ghci))
  '(haskell-tags-on-save t)
  '(hindent-style "chris-done")
+ '(js-indent-level 2))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
