@@ -61,3 +61,6 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq-default indent-tabs-mode nil)
+
+(ac-config-default)
+
