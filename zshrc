@@ -98,3 +98,5 @@ export EDITOR="/usr/local/bin/et"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export TERM=`ls -1R /usr/share/terminfo | grep "^eterm-color$" || ls -1R /usr/share/terminfo | grep "^aterm$" || ls -1R /usr/share/terminfo | grep "^ansi$" || ls -1R /usr/share/terminfo | grep "^xterm-256color$" || echo "xterm"`
