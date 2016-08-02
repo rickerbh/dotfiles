@@ -86,3 +86,4 @@
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
 
+(global-set-key (kbd "C-;") 'mc/mark-all-like-this-dwim)
