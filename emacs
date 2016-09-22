@@ -73,6 +73,12 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
+(customize-set-variable 'visible-bell t)
+(customize-set-variable 'blink-cursor-mode nil)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(customize-set-variable `inhibit-startup-screen t)
+
 (dolist (command '(yank yank-pop))
    (eval `(defadvice ,command (after indent-region activate)
             (and (not current-prefix-arg)
