@@ -71,6 +71,10 @@
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
+(add-hook 'local-write-file-hooks
+            (lambda ()
+               (delete-trailing-whitespace)
+              nil))
 
 (package-install 'intero)
 (add-hook 'haskell-mode-hook 'intero-mode)
