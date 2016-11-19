@@ -100,3 +100,6 @@
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
+
+(package-install 'intero)
+(add-hook 'haskell-mode-hook 'intero-mode)
