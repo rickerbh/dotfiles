@@ -4,7 +4,61 @@
 (package-initialize)
 (package-refresh-contents)
 
-(exec-path-from-shell-initialize)
+;; Package installation
+(use-package magit
+  :ensure t)
+
+(use-package cider
+  :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
+(use-package markdown-mode
+  :ensure t)
+
+(use-package auto-complete
+  :ensure t
+  :config
+  (ac-config-default))
+
+(use-package multiple-cursors
+  :ensure t)
+
+(use-package edit
+  :ensure t)
+
+(use-package web-mode
+  :ensure t
+  :config
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (add-hook 'local-write-file-hooks
+            (lambda ()
+               (delete-trailing-whitespace)
+              nil)))
+
+(use-package company-mode
+  :ensure t)
+
+(use-package haskell-mode
+  :ensure t)
+
+(use-package intero
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook 'intero-mode))
+
+(use-package flycheck-flow
+  :ensure t)
 
 (load-theme 'subatomic t)
 
@@ -33,11 +87,7 @@
 (setq vc-handled-backends nil)
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
 (setq-default indent-tabs-mode nil)
-
-(ac-config-default)
 
 ;; UTF-8 support
 (prefer-coding-system       'utf-8)
@@ -65,16 +115,3 @@
                    (indent-region (region-beginning) (region-end) nil))))))
 
 (global-set-key (kbd "C-;") 'mc/mark-all-like-this-dwim)
-
-;; web-mode.el
-(require 'web-mode)
-(setq web-mode-markup-indent-offset 2)
-(setq web-mode-css-indent-offset 2)
-(setq web-mode-code-indent-offset 2)
-(add-hook 'local-write-file-hooks
-            (lambda ()
-               (delete-trailing-whitespace)
-              nil))
-
-(package-install 'intero)
-(add-hook 'haskell-mode-hook 'intero-mode)
