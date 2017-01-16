@@ -1,39 +1,90 @@
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+	     '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
-(package-refresh-contents)
 
 ;; Package installation
-(use-package magit
-  :ensure t)
 
-(use-package cider
-  :ensure t)
-
-(use-package flycheck
+(use-package noctilux-theme
   :ensure t
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
-(use-package exec-path-from-shell
-  :ensure t
-  :config
-  (exec-path-from-shell-initialize))
-
-(use-package markdown-mode
-  :ensure t)
+  (load-theme 'noctilux t))
 
 (use-package auto-complete
   :ensure t
   :config
+  (require 'auto-complete-config)
+  (setq ac-delay 0.0)
+  (setq ac-quick-help-delay 0.5)
   (ac-config-default))
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-flycheck-mode))
+
+(use-package popup
+  :ensure t)
 
 (use-package multiple-cursors
   :ensure t)
 
-(use-package edit
+(use-package markdown-mode
   :ensure t)
+
+;;(use-package magit
+;;  :ensure t)
+
+(use-package paredit
+  :ensure t
+  :config
+  (add-hook 'cider-repl-mode-hook 'paredit-mode)
+  (add-hook 'clojure-mode-hook 'paredit-mode))
+
+;;(use-package rainbow-mode
+;;  :ensure t)
+
+(use-package rainbow-delimiters
+  :ensure t
+  :config 
+  (rainbow-delimiters-mode)
+  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode))
+
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (add-hook 'clojure-mode-hook 'aggressive-indent-mode))
+
+(use-package cider
+  :ensure t
+  :config
+  (add-hook 'clojure-mode-hook 'cider-mode)
+  (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+  (setq nrepl-popup-stacktraces nil)
+  (add-to-list 'same-window-buffer-names "<em>nrepl<em>")
+  (add-to-list 'ac-modes 'cider-mode)
+  (add-to-list 'ac-modes 'cider-repl-mode)
+  (eval-after-load "cider"
+    '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)))
+
+;;(use-package exec-path-from-shell
+;;  :ensure t
+;;  :config
+;;  (exec-path-from-shell-initialize))
+
+(use-package ac-nrepl
+  :ensure t  
+  :config
+  (require 'ac-nrepl)
+  (add-hook 'cider-mode-hook 'ac-nrepl-setup)
+  (add-hook 'cider-repl-mode-hook 'ac-nrepl-setup))
+
+;;(use-package edit
+;;  :ensure t)
 
 (use-package web-mode
   :ensure t
@@ -46,7 +97,7 @@
                (delete-trailing-whitespace)
               nil)))
 
-(use-package company-mode
+(use-package company
   :ensure t)
 
 (use-package haskell-mode
@@ -59,8 +110,6 @@
 
 (use-package flycheck-flow
   :ensure t)
-
-(load-theme 'subatomic t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -115,3 +164,5 @@
                    (indent-region (region-beginning) (region-end) nil))))))
 
 (global-set-key (kbd "C-;") 'mc/mark-all-like-this-dwim)
+
+(show-paren-mode 1)
