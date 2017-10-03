@@ -57,7 +57,6 @@ export PATH="/Users/rickerbh/.rbenv/shims:~/Library/Android/sdk/tools:~/Library/
 # export MANPATH="/usr/local/man:$MANPATH"
 
 alias ll="ls -l"
-alias emacs=ec
 
 export PATH="/Users/rickerbh/.local/bin":"/Users/rickerbh/.npm-packages/bin":$PATH
 export ANDROID_HOME=/Users/rickerbh/Library/Android/sdk

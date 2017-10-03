@@ -1,58 +1,50 @@
 (require 'package)
+(setq package-enabled-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+	     '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+	     '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+             '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
 ;; Package installation
+
+;;(use-package edit
+;;  :ensure t)
+
+(use-package paredit
+  :ensure t)
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-global-mode)
+  (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths))
+
+(use-package company
+  :ensure t)
+
+(use-package rainbow-delimiters
+  :ensure t)
+
+(use-package haskell-mode
+  :ensure t)
+
+(use-package elm-mode
+:ensure t)
 
 (use-package noctilux-theme
   :ensure t
   :config
   (load-theme 'noctilux t))
-
-(use-package auto-complete
-  :ensure t
-  :config
-  (require 'auto-complete-config)
-  (setq ac-delay 0.0)
-  (setq ac-quick-help-delay 0.5)
-  (ac-config-default))
-
-(use-package flycheck
-  :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-flycheck-mode))
-
-(use-package popup
-  :ensure t)
-
-(use-package multiple-cursors
-  :ensure t)
-
-(use-package markdown-mode
-  :ensure t)
-
-;;(use-package magit
-;;  :ensure t)
-
-(use-package paredit
-  :ensure t
-  :config
-  (add-hook 'cider-repl-mode-hook 'paredit-mode)
-  (add-hook 'clojure-mode-hook 'paredit-mode))
-
-;;(use-package rainbow-mode
-;;  :ensure t)
-
-(use-package rainbow-delimiters
-  :ensure t
-  :config 
-  (rainbow-delimiters-mode)
-  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode))
 
 (use-package aggressive-indent
   :ensure t
@@ -64,27 +56,33 @@
   :config
   (add-hook 'clojure-mode-hook 'cider-mode)
   (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'clojure-mode-hook 'paredit-mode)
+  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
   (setq nrepl-popup-stacktraces nil)
   (add-to-list 'same-window-buffer-names "<em>nrepl<em>")
-  (add-to-list 'ac-modes 'cider-mode)
-  (add-to-list 'ac-modes 'cider-repl-mode)
+  (add-hook 'cider-mode-hook 'ac-nrepl-setup)
+  (add-hook 'cider-repl-mode-hook 'paredit-mode)
+  (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
   (eval-after-load "cider"
     '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)))
 
-;;(use-package exec-path-from-shell
-;;  :ensure t
-;;  :config
-;;  (exec-path-from-shell-initialize))
+(use-package flycheck-clojure
+  :ensure t)
+
+(use-package flycheck-pos-tip
+  :ensure t)
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
 
 (use-package ac-nrepl
-  :ensure t  
+  :ensure t
   :config
   (require 'ac-nrepl)
-  (add-hook 'cider-mode-hook 'ac-nrepl-setup)
-  (add-hook 'cider-repl-mode-hook 'ac-nrepl-setup))
-
-;;(use-package edit
-;;  :ensure t)
+  (add-to-list 'ac-modes 'cider-mode)
+  (add-to-list 'ac-modes 'cider-repl-mode))
 
 (use-package web-mode
   :ensure t
@@ -97,18 +95,26 @@
                (delete-trailing-whitespace)
               nil)))
 
-(use-package company
-  :ensure t)
-
-(use-package haskell-mode
-  :ensure t)
-
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+  
 (use-package intero
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
 
 (use-package flycheck-flow
+  :ensure t
+  :config
+  (require 'flycheck-flow)
+  (add-hook 'javascript-mode-hook 'flycheck-mode))
+
+(use-package markdown-preview-mode
   :ensure t)
 
 (custom-set-variables
@@ -116,7 +122,22 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(js-indent-level 2))
+ '(ansi-color-names-vector
+   ["#292929" "#ff3333" "#aaffaa" "#aaeecc" "#aaccff" "#FF1F69" "#aadddd" "#999999"])
+ '(background-color nil)
+ '(background-mode dark)
+ '(blink-cursor-mode nil)
+ '(cursor-color nil)
+ '(custom-safe-themes
+   (quote
+    ("4980e5ddaae985e4bae004280bd343721271ebb28f22b3e3b2427443e748cd3f" default)))
+ '(flycheck-javascript-flow-args nil)
+ '(foreground-color nil)
+ '(inhibit-startup-screen t)
+ '(js-indent-level 2)
+ '(visible-bell t)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-markup-indent-offset 4))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -163,6 +184,9 @@
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
 
-(global-set-key (kbd "C-;") 'mc/mark-all-like-this-dwim)
-
 (show-paren-mode 1)
+
+;; Purescript
+(add-to-list 'load-path "~/Documents/Development/emacs/purescript-mode/")
+(require 'purescript-mode-autoloads)
+(add-to-list 'Info-default-directory-list "~/Documents/Development/emacs/purescript-mode/")
