@@ -19,7 +19,7 @@ setup_file_link() {
     if [ ! -e "${destination}" ]; then
         ln -s "${source}" "${destination}" &&  echo "Linked file ${source} to ${destination}"
     else
-        echo "ERROR: File ${source} already exists"
+        echo "ERROR: File ${destination} already exists"
     fi
 }
 
