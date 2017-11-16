@@ -25,3 +25,5 @@ setup_file_link() {
 
 setup_file_link "${CODE_HOME}/zshrc" "${HOME}/.zshrc"
 setup_file_link "${CODE_HOME}/emacs" "${HOME}/.emacs"
+mkdir -p "${HOME}/.lein"
+setup_file_link "${CODE_HOME}/lein-profiles.clj" "${HOME}/.lein/profiles.clj"
