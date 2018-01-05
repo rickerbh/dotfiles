@@ -164,6 +164,7 @@
  '(package-selected-packages
    (quote
     (web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent))))
+    
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
