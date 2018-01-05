@@ -15,10 +15,7 @@
 (eval-when-compile
   (require 'use-package))
 
-;; Package installation
-
-;;(use-package edit
-;;  :ensure t)
+;; Package installation 
 
 (use-package paredit
   :ensure t)
@@ -30,7 +27,9 @@
   (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths))
 
 (use-package company
-  :ensure t)
+  :ensure t
+  :config
+  (global-company-mode))
 
 (use-package rainbow-delimiters
   :ensure t)
@@ -54,46 +53,46 @@
 (use-package cider
   :ensure t
   :config
-  (add-hook 'clojure-mode-hook 'cider-mode)
-  (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'clojure-mode-hook #'cider-mode)
+  (add-hook 'cider-mode-hook #'eldoc-mode)
   (add-hook 'clojure-mode-hook 'paredit-mode)
   (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-  (setq nrepl-popup-stacktraces nil)
-  (add-to-list 'same-window-buffer-names "<em>nrepl<em>")
-  (add-hook 'cider-mode-hook 'ac-nrepl-setup)
   (add-hook 'cider-repl-mode-hook 'paredit-mode)
   (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
-  (eval-after-load "cider"
-    '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)))
+  (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent))))
 
-(use-package flycheck-clojure
-  :ensure t)
-
-(use-package flycheck-pos-tip
-  :ensure t)
+(use-package magit
+             :ensure t
+             :config
+             (setq vc-handled-backends nil)
+             (global-set-key (kbd "C-x g") 'magit-status))
 
 (use-package exec-path-from-shell
   :ensure t
   :config
   (exec-path-from-shell-initialize))
 
-(use-package ac-nrepl
-  :ensure t
-  :config
-  (require 'ac-nrepl)
-  (add-to-list 'ac-modes 'cider-mode)
-  (add-to-list 'ac-modes 'cider-repl-mode))
-
 (use-package web-mode
-  :ensure t
-  :config
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (add-hook 'local-write-file-hooks
-            (lambda ()
-               (delete-trailing-whitespace)
-              nil)))
+             :ensure t
+             :config
+             (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+             (setq web-mode-markup-indent-offset 2)
+             (setq web-mode-css-indent-offset 2)
+             (setq web-mode-code-indent-offset 2)
+             (setq web-mode-enable-auto-pairing t)
+             (setq web-mode-enable-current-element-highlight t)
+             (setq web-mode-enable-current-column-highlight t)
+             (add-hook 'local-write-file-hooks
+                       (lambda ()
+                               (delete-trailing-whitespace)
+                               nil)))
 
 (use-package markdown-mode
   :ensure t
@@ -102,49 +101,14 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
-  
+
 (use-package intero
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
 
-(use-package flycheck-flow
-  :ensure t
-  :config
-  (require 'flycheck-flow)
-  (add-hook 'javascript-mode-hook 'flycheck-mode))
-
 (use-package markdown-preview-mode
   :ensure t)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#292929" "#ff3333" "#aaffaa" "#aaeecc" "#aaccff" "#FF1F69" "#aadddd" "#999999"])
- '(background-color nil)
- '(background-mode dark)
- '(blink-cursor-mode nil)
- '(cursor-color nil)
- '(custom-safe-themes
-   (quote
-    ("4980e5ddaae985e4bae004280bd343721271ebb28f22b3e3b2427443e748cd3f" default)))
- '(flycheck-javascript-flow-args nil)
- '(foreground-color nil)
- '(inhibit-startup-screen t)
- '(js-indent-level 2)
- '(visible-bell t)
- '(web-mode-code-indent-offset 2)
- '(web-mode-markup-indent-offset 4))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
   backup-by-copying t    ; Don't delink hardlinks
@@ -153,9 +117,6 @@
   kept-new-versions 20   ; how many of the newest versions to keep
   kept-old-versions 5    ; and how many of the old
   )
-
-(setq vc-handled-backends nil)
-(global-set-key (kbd "C-x g") 'magit-status)
 
 (setq-default indent-tabs-mode nil)
 
@@ -186,7 +147,26 @@
 
 (show-paren-mode 1)
 
-;; Purescript
-(add-to-list 'load-path "~/Documents/Development/emacs/purescript-mode/")
-(require 'purescript-mode-autoloads)
-(add-to-list 'Info-default-directory-list "~/Documents/Development/emacs/purescript-mode/")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#292929" "#ff3333" "#aaffaa" "#aaeecc" "#aaccff" "#FF1F69" "#aadddd" "#999999"])
+ '(background-color nil)
+ '(background-mode dark)
+ '(cursor-color nil)
+ '(custom-safe-themes
+   (quote
+    ("4980e5ddaae985e4bae004280bd343721271ebb28f22b3e3b2427443e748cd3f" default)))
+ '(foreground-color nil)
+ '(package-selected-packages
+   (quote
+    (web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
