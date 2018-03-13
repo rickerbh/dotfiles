@@ -121,6 +121,24 @@
 
 (setq-default indent-tabs-mode nil)
 
+;; Org Mode
+(require 'org)
+(global-set-key "\C-ca" 'org-agenda)
+(setq org-directory "~/Documents/org")
+(setq org-mobile-inbox-for-pull "~/Documents/org/flagged.org")
+(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(setq org-agenda-files (list "~/Documents/org" "~/Documents/org/journal"))
+(setq org-log-done 'time)
+(setq org-todo-keywords
+      '((sequence "TODO" "|" "DONE" "ABANDONED")))
+
+(use-package org-journal
+  :ensure t
+  :config
+  (setq org-journal-dir "~/Documents/org/journal")
+  (setq org-journal-file-format "%Y%m%d.org"))
+
 ;; UTF-8 support
 (prefer-coding-system       'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -164,7 +182,7 @@
  '(foreground-color nil)
  '(package-selected-packages
    (quote
-    (web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent))))
+    (org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent))))
     
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
