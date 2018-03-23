@@ -95,9 +95,13 @@ source ~/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export EDITOR="/usr/local/bin/et"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH # Add path for ruby gems
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 export TERM=`ls -1R /usr/share/terminfo | grep "^eterm-color$" || ls -1R /usr/share/terminfo | grep "^aterm$" || ls -1R /usr/share/terminfo | grep "^ansi$" || ls -1R /usr/share/terminfo | grep "^xterm-256color$" || echo "xterm"`
 
 export DEFAULT_USER="rickerbh"
+
+export "GPG_TTY=$(tty)"
