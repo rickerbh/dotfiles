@@ -105,3 +105,8 @@ export TERM=`ls -1R /usr/share/terminfo | grep "^eterm-color$" || ls -1R /usr/sh
 export DEFAULT_USER="rickerbh"
 
 export "GPG_TTY=$(tty)"
+
+# pgcli tools
+export PATH="/usr/local/opt/libpq/bin:$PATH"
+
+eval "$(jenv init -)"
