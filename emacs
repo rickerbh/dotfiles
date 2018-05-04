@@ -147,9 +147,6 @@
 (set-language-environment "UTF-8")
 
 (customize-set-variable 'visible-bell t)
-(customize-set-variable 'blink-cursor-mode nil)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
 (customize-set-variable `inhibit-startup-screen t)
 
 ;; Firacode support
@@ -198,8 +195,6 @@
                  (let ((mark-even-if-inactive transient-mark-mode))
                    (indent-region (region-beginning) (region-end) nil))))))
 
-(show-paren-mode 1)
-
 (setq js-indent-level 2)
 
 (custom-set-variables
@@ -211,15 +206,19 @@
    ["#292929" "#ff3333" "#aaffaa" "#aaeecc" "#aaccff" "#FF1F69" "#aadddd" "#999999"])
  '(background-color nil)
  '(background-mode dark)
+ '(blink-cursor-mode nil)
  '(cursor-color nil)
  '(custom-safe-themes
    (quote
     ("4980e5ddaae985e4bae004280bd343721271ebb28f22b3e3b2427443e748cd3f" default)))
  '(foreground-color nil)
  '(magit-commit-arguments (quote ("--gpg-sign=E7FC3852D9E58138")))
+ '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
     (org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent))))
+ '(show-paren-mode t)
+ '(tool-bar-mode nil))
     
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
