@@ -207,6 +207,7 @@
  '(background-color nil)
  '(background-mode dark)
  '(blink-cursor-mode nil)
+ '(column-number-mode t)
  '(cursor-color nil)
  '(custom-safe-themes
    (quote
