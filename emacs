@@ -62,6 +62,17 @@
   (add-hook 'cider-mode-hook '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
   (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))"))
 
+(defun my-clojure-mode-hook ()
+    (clj-refactor-mode 1)
+    (yas-minor-mode 1) ; for adding require/use/import statements
+    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+    (cljr-add-keybindings-with-prefix "C-c C-m"))
+
+(use-package clj-refactor
+  :ensure t
+  :config
+  (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
+
 (use-package magit
              :ensure t
              :config
@@ -138,6 +149,14 @@
   :config
   (setq org-journal-dir "~/Documents/org/journal")
   (setq org-journal-file-format "%Y%m%d.org"))
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (setq js2-strict-missing-semi-warning nil))
+
+(use-package rjsx-mode
+  :ensure t)
 
 ;; UTF-8 support
 (prefer-coding-system       'utf-8)
@@ -217,7 +236,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent))))
+    (clj-refactor js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
     
