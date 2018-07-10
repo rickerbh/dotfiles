@@ -109,4 +109,7 @@ export "GPG_TTY=$(tty)"
 # pgcli tools
 export PATH="/usr/local/opt/libpq/bin:$PATH"
 
+# go binaries
+export PATH=$PATH:~/go/bin
+
 eval "$(jenv init -)"
