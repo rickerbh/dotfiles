@@ -112,7 +112,19 @@ export PATH="/usr/local/opt/libpq/bin:$PATH"
 # go binaries
 export PATH=$PATH:~/go/bin
 
+export PATH="$HOME/.fastlane/bin:$PATH"
+
 eval "$(jenv init -)"
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/rickerbh/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/rickerbh/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/rickerbh/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/rickerbh/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/rickerbh/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rickerbh/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
