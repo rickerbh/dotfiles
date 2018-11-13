@@ -52,6 +52,7 @@
 
 (use-package cider
   :ensure t
+  :pin melpa-stable
   :config
   (add-hook 'clojure-mode-hook #'cider-mode)
   (add-hook 'cider-mode-hook #'eldoc-mode)
@@ -70,6 +71,7 @@
 
 (use-package clj-refactor
   :ensure t
+  :pin melpa-stable
   :config
   (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
 
@@ -236,7 +238,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (clj-refactor js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent)))
+    (cider magit clj-refactor js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow flycheck-clojure exec-path-from-shell elm-mode aggressive-indent)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
     
