@@ -134,6 +134,8 @@
 
 (setq-default indent-tabs-mode nil)
 
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
 ;; Org Mode
 (require 'org)
 (global-set-key "\C-ca" 'org-agenda)
