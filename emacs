@@ -23,7 +23,7 @@
 (use-package projectile
   :ensure t
   :config
-  (projectile-global-mode)
+  (projectile-mode)
   (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths))
 
 (use-package company
@@ -40,10 +40,7 @@
 (use-package elm-mode
 :ensure t)
 
-(use-package noctilux-theme
-  :ensure t
-  :config
-  (load-theme 'noctilux t))
+(load-theme 'nord t)
 
 (use-package aggressive-indent
   :ensure t
@@ -183,13 +180,13 @@
   (interactive)
   (save-excursion
     (org-back-to-heading 'invisible-ok)
-    (hide-other)
+    (outline-hide-other)
     (org-cycle)
     (org-cycle)
     (org-cycle)))
 
 (defun bh/set-truncate-lines ()
-  "Toggle value of truncate-lines and refresh window display."
+  "Toggle value of \"truncate-lines\" and refresh window display."
   (interactive)
   (setq truncate-lines (not truncate-lines))
   ;; now refresh window display (an idiom from simple.el):
@@ -266,7 +263,7 @@
 ;;;; Refile settings
 ; Exclude DONE state tasks from refile targets
 (defun bh/verify-refile-target ()
-  "Exclude todo keywords with a done state from refile targets"
+  "Exclude todo keywords with a done state from refile targets."
   (not (member (nth 2 (org-heading-components)) org-done-keywords)))
 
 (setq org-refile-target-verify-function 'bh/verify-refile-target)
@@ -394,7 +391,7 @@ Switch projects and subprojects from NEXT back to TODO"
       "TODO"))))
 
 (defun bh/find-project-task ()
-  "Move point to the parent (project) task if any"
+  "Move point to the parent (project) task if any."
   (save-restriction
     (widen)
     (let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
@@ -442,7 +439,7 @@ as the default task."
       (org-clock-in))))
 
 (defun bh/clock-in-parent-task ()
-  "Move point to the parent (project) task if any and clock in"
+  "Move point to the parent (project) task if any and clock in."
   (let ((parent-task))
     (save-excursion
       (save-restriction
@@ -474,7 +471,7 @@ as the default task."
 
 
 (defun bh/is-project-p ()
-  "Any task with a todo keyword subtask"
+  "Any task with a todo keyword subtask."
   (save-restriction
     (widen)
     (let ((has-subtask)
@@ -501,7 +498,7 @@ Callers of this function already widen the buffer view."
         t))))
 
 (defun bh/is-task-p ()
-  "Any task with a todo keyword and no subtask"
+  "Any task with a todo keyword and no subtask."
   (save-restriction
     (widen)
     (let ((has-subtask)
@@ -517,7 +514,7 @@ Callers of this function already widen the buffer view."
       (and is-a-task (not has-subtask)))))
 
 (defun bh/is-subproject-p ()
-  "Any task which is a subtask of another project"
+  "Any task which is a subtask of another project."
   (let ((is-subproject)
         (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
     (save-excursion
@@ -527,16 +524,18 @@ Callers of this function already widen the buffer view."
     (and is-a-task is-subproject)))
 
 (defun bh/list-sublevels-for-projects-indented ()
-  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
-  This is normally used by skipping functions where this variable is already local to the agenda."
+  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all
+subtasks. This is normally used by skipping functions where this variable is
+already local to the agenda."
   (if (marker-buffer org-agenda-restrict-begin)
       (setq org-tags-match-list-sublevels 'indented)
     (setq org-tags-match-list-sublevels nil))
   nil)
 
 (defun bh/list-sublevels-for-projects ()
-  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
-  This is normally used by skipping functions where this variable is already local to the agenda."
+  "Set org-tags-match-list-sublevels so when restricted to a subtree we list all
+subtasks. This is normally used by skipping functions where this variable is
+already local to the agenda."
   (if (marker-buffer org-agenda-restrict-begin)
       (setq org-tags-match-list-sublevels t)
     (setq org-tags-match-list-sublevels nil))
@@ -552,7 +551,7 @@ Callers of this function already widen the buffer view."
   (message "%s WAITING and SCHEDULED NEXT Tasks" (if bh/hide-scheduled-and-waiting-next-tasks "Hide" "Show")))
 
 (defun bh/skip-stuck-projects ()
-  "Skip trees that are not stuck projects"
+  "Skip trees that are not stuck projects."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -570,7 +569,7 @@ Callers of this function already widen the buffer view."
         nil))))
 
 (defun bh/skip-non-stuck-projects ()
-  "Skip trees that are not stuck projects"
+  "Skip trees that are not stuck projects."
   ;; (bh/list-sublevels-for-projects-indented)
   (save-restriction
     (widen)
@@ -589,7 +588,7 @@ Callers of this function already widen the buffer view."
         next-headline))))
 
 (defun bh/skip-non-projects ()
-  "Skip trees that are not projects"
+  "Skip trees that are not projects."
   ;; (bh/list-sublevels-for-projects-indented)
   (if (save-excursion (bh/skip-non-stuck-projects))
       (save-restriction
@@ -617,7 +616,7 @@ Skip project and sub-project tasks, habits, and project related tasks."
         next-headline)))))
 
 (defun bh/skip-project-trees-and-habits ()
-  "Skip trees that are projects"
+  "Skip trees that are projects."
   (save-restriction
     (widen)
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
@@ -630,7 +629,7 @@ Skip project and sub-project tasks, habits, and project related tasks."
         nil)))))
 
 (defun bh/skip-projects-and-habits-and-single-tasks ()
-  "Skip trees that are projects, tasks that are habits, single non-project tasks"
+  "Skip trees that are projects, tasks that are habits, single non-project tasks."
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -649,8 +648,9 @@ Skip project and sub-project tasks, habits, and project related tasks."
 
 (defun bh/skip-project-tasks-maybe ()
   "Show tasks related to the current restriction.
-When restricted to a project, skip project and sub project tasks, habits, NEXT tasks, and loose tasks.
-When not restricted, skip project and sub-project tasks, habits, and project related tasks."
+When restricted to a project, skip project and sub project tasks, habits, NEXT
+tasks, and loose tasks.  When not restricted, skip project and sub-project
+tasks, habits, and project related tasks."
   (save-restriction
     (widen)
     (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
@@ -708,7 +708,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
         nil)))))
 
 (defun bh/skip-projects-and-habits ()
-  "Skip trees that are projects and tasks that are habits"
+  "Skip trees that are projects and tasks that are habits."
   (save-restriction
     (widen)
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
@@ -721,7 +721,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
         nil)))))
 
 (defun bh/skip-non-subprojects ()
-  "Skip trees that are not projects"
+  "Skip trees that are not projects."
   (let ((next-headline (save-excursion (outline-next-heading))))
     (if (bh/is-subproject-p)
         nil
@@ -831,3 +831,5 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(provide '.emacs)
+;;; .emacs ends here
