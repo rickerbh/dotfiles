@@ -31,11 +31,21 @@
   :config
   (global-company-mode))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 (use-package rainbow-delimiters
   :ensure t)
 
 (use-package haskell-mode
   :ensure t)
+
+(use-package neotree
+  :ensure t
+  :pin melpa-stable
+  :config
+  (global-set-key [f8] 'neotree-toggle))
 
 (use-package elm-mode
 :ensure t)
@@ -71,6 +81,14 @@
   :pin melpa-stable
   :config
   (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
+
+(use-package flycheck-clj-kondo
+  :ensure t)
+
+(use-package clojure-mode
+  :ensure t
+  :config
+  (require 'flycheck-clj-kondo))
 
 (use-package magit
              :ensure t
@@ -821,7 +839,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit noctilux-theme markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
+    (neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
