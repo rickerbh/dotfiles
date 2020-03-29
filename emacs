@@ -20,11 +20,28 @@
 (use-package paredit
   :ensure t)
 
+(use-package helm
+  :ensure t
+  :pin melpa-stable
+  :init
+  (require 'helm-config)
+  :config
+  (global-set-key (kbd "M-x") #'helm-M-x)
+  (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+  (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (helm-mode 1))
+
 (use-package projectile
   :ensure t
   :config
   (projectile-mode)
-  (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths))
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on)
+  (setq projectile-show-paths-function 'projectile-hashify-with-relative-paths)
+  (setq projectile-switch-project-action 'helm-projectile))
+
+(use-package helm-projectile
+  :ensure t)
 
 (use-package company
   :ensure t
@@ -50,6 +67,10 @@
 (use-package elm-mode
 :ensure t)
 
+;(use-package nord
+;  :ensure t
+;  :config
+;  (load-theme 'nord t))
 (load-theme 'nord t)
 
 (use-package aggressive-indent
@@ -839,7 +860,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
+    (helm-projectile helm neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
