@@ -204,7 +204,7 @@
 (global-set-key (kbd "<f12>") 'org-agenda)
 (global-set-key (kbd "<f5>") 'bh/org-todo)
 (global-set-key (kbd "<S-f5>") 'bh/widen)
-(global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
+;;(global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
 (global-set-key (kbd "<f9> c") 'calendar)
 (global-set-key (kbd "<f9> n") 'bh/toggle-next-task-display)
 
@@ -289,13 +289,13 @@
 (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
 ; Use IDO for both buffer and file completion and ido-everywhere to t
-(setq org-completion-use-ido t)
-(setq ido-everywhere t)
+;;(setq org-completion-use-ido t)
+;;(setq ido-everywhere t)
 (setq ido-max-directory-size 100000)
-(ido-mode (quote both))
+;;(ido-mode (quote both))
 ; Use the current window when visiting files and buffers with ido
-(setq ido-default-file-method 'selected-window)
-(setq ido-default-buffer-method 'selected-window)
+;;(setq ido-default-file-method 'selected-window)
+;;(setq ido-default-buffer-method 'selected-window)
 ; Use the current window for indirect buffer display
 (setq org-indirect-buffer-display 'current-window)
 
