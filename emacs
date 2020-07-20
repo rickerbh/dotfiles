@@ -1,9 +1,7 @@
 (require 'package)
 (setq package-enabled-at-startup nil)
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
              '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
@@ -48,9 +46,58 @@
   :config
   (global-company-mode))
 
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+         (flycheck-add-mode 'typescript-tslint 'web-mode)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+(setq company-tooltip-align-annotations t)
+
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+
+;; use local eslint from node_modules before global
+;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :config
+  (setq-default flycheck-disabled-checkers
+    (append flycheck-disabled-checkers
+      '(javascript-jshint)))
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (setq-default flycheck-temp-prefix ".flycheck")
+  (setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(json-jsonlist))))
 
 (use-package rainbow-delimiters
   :ensure t)
@@ -138,6 +185,7 @@
              (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
              (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
              (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+             (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
              (setq web-mode-markup-indent-offset 4)
              (setq web-mode-css-indent-offset 2)
              (setq web-mode-code-indent-offset 2)
@@ -258,6 +306,8 @@
               ("n" "note" entry (file "~/Documents/org/refile.org")
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/Documents/org/diary.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("b" "Book notes" entry (file "~/Documents/org/book-notes.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("w" "org-protocol" entry (file "~/Documents/org/refile.org")
                "* TODO Review %c\n%U\n" :immediate-finish t)
@@ -865,7 +915,8 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (multiple-cursors helm-projectile helm neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
+    (tide multiple-cursors helm-projectile helm neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
+ '(safe-local-variable-values (quote ((cider-shadow-cljs-default-options . "app"))))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
