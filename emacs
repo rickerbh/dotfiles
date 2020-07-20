@@ -78,6 +78,11 @@
   :config
   (add-hook 'clojure-mode-hook 'aggressive-indent-mode))
 
+(use-package multiple-cursors
+  :ensure t
+  :config
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines))
+
 (use-package cider
   :ensure t
   :pin melpa-stable
@@ -860,7 +865,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (helm-projectile helm neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
+    (multiple-cursors helm-projectile helm neotree flycheck-clj-kondo nord-theme clj-refactor clojure-mode flycheck-clojure graphviz-dot-mode magit js2-mode js-mode rjsx-mode org-journal web-mode use-package rainbow-delimiters projectile paredit markdown-preview-mode intero flycheck-pos-tip flycheck-flow exec-path-from-shell elm-mode aggressive-indent)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
